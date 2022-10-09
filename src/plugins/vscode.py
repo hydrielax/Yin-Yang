@@ -27,8 +27,11 @@ def write_new_settings(settings, path):
 def get_theme_name(path):
     # open metadata
     manifest: dict
-    with open(path, 'r') as file:
-        manifest = json.load(file)
+    try:
+        with open(path, 'r') as file:
+            manifest = json.load(file)
+    except Exception:
+        return []
 
     # collect themes
     themes: list
