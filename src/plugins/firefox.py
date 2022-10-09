@@ -12,9 +12,12 @@ def get_default_profile_path() -> str:
     path = str(Path.home()) + '/.mozilla/firefox/'
     config_parser = ConfigParser()
     config_parser.read(path + '/profiles.ini')
-    path += config_parser['Profile0']['Path']
-
-    return path
+    default_profile = config_parser['General']['StartWithLastProfile']
+    profile_path = config_parser[f'Profile{default_profile}']['Path']
+    if profile_path.startswith('/'):
+        return profile_path
+    else:
+        return path + profile_path
 
 
 class Firefox(ExternalPlugin):
